@@ -1,0 +1,63 @@
+
+<html>
+<head>
+	<title>To-Do (Alby-do) Project</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'>
+	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+	<script src="script.js" defer></script>
+
+
+
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1 id='appName' class='text-center'>To-do</h1>
+		</header>
+		<div id='taskContainer' class='taskContainer'>
+			<div id='inProgressHeader'>
+				<h3 class='taskHeader'>Tasks in Progress</h3>
+			</div>
+			<div id="tasks-inProgress">
+				<div class='task'>Go to Store</div>
+				<div class='task'>Buy Milk</div>
+			</div>
+
+			<div id='CompletedHeader' >
+				<h3 class='taskHeader'>Completed Tasks</h3>
+			</div>
+			<div id="tasks-completed">
+				<div class='task'>Buy Candy</div>
+			</div>
+
+		</div>
+		<footer>
+			<form id="form-addTask" class="form-horizontal" role="form">
+				<div class="form-group">
+
+					<div class="col-md-12">
+						<label for="taskTitle">Enter New Task</label>
+						<!-- All text elements with class .form-control have a width of 100%. -->
+						<input class="col-md-8 form-control" type="text" placeholder="Task Title" id="taskTitle" />
+						<!-- <label for="taskInfo">Task Description</label> -->
+						<textarea id="taskInfo" class="form-control" placeholder="Descrtipion"></textarea>
+						<!-- <label for="taskDue">Due Date</label> -->
+						<input id="taskDue" class="col-md-4 form-control hasDatepicker" type="date" placeholder="Due Date (dd/mm/yyyy)" />
+					</div>
+
+				</div>
+
+				<input type="button" class="btn btn-primary" value="Add Task" onclick="albyDo.add()" />
+				<input type="button" class="btn btn-primary" value="Clear Task" onclick="albyDo.clear()" />
+				<!-- <button id="addButton" class="btn btn-primary center-block">Add New Task</button> -->
+
+			</form>
+
+		</footer>
+	</div>
+</body>
+</html>

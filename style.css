@@ -1,0 +1,232 @@
+* {
+    font-family: verdana, sans-serif;
+    /* box-sizing: border-box; */
+}
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-weight: 400;
+  font-size: 4.0em;
+}
+
+textarea {
+    max-width: 100%;
+}
+
+header{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0px;
+    border-bottom: 1px solid orange;
+    padding: 10px;
+    background-color: #EEE;
+}
+
+footer{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin: 0px;
+    border-top: 1px solid orange;
+    padding: 10px;
+    background-color: #4FF;
+}
+
+.container{
+    max-width: 600px;
+    border-radius: 10px;
+    border: 1px solid orange;   
+    padding: 0px; 
+    margin: 20px auto;
+    background-color: #eef;
+}
+
+.taskHeader{
+    text-align: center;
+    margin: 10px 0px;
+    padding: 3px 5px 8px 20px;
+    border-top: 14px;
+    color: #fefefe;
+    background-color: #234;
+    /* border-radius: 10px; */
+}
+
+.task{
+    margin: 2px ;
+    padding: 3px 3px 3px 20px;
+    color: purple;
+    background-color: white;
+    border-radius: 10px;
+}
+.task .task-title{
+    font-size: 1.3em;
+    font-style: bold;
+}
+
+.task .task-dueDate{
+    font-size: .8em;
+    font-style: italic;
+}
+
+.task .task-description{
+    color: black;
+    font-style: sans-serif;
+}
+
+
+/* *********from nested accordion codepen********************************************************************** */
+/* 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+p {
+  font-size: 1.1em;
+  margin: 1em 0;
+}
+.description {
+  margin: 1em auto 2.25em;
+}
+body {
+  width: 40%;
+  min-width: 300px;
+  max-width: 400px;
+  margin: 1.5em auto;
+  color: #333;
+}
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-weight: 400;
+  font-size: 2.5em;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+ul .inner {
+  padding-left: 1em;
+  overflow: hidden;
+  display: none;
+}
+ul .inner.show {
+  display: block;
+}
+ul li {
+  margin: .5em 0;
+}
+ul li a.toggle {
+  width: 100%;
+  display: block;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fefefe;
+  padding: .75em;
+  border-radius: 0.15em;
+  transition: background .3s ease;
+}
+ul li a.toggle:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+*/
+/* *********************************************************************************** */
+
+
+/* 
+form {
+    display: inline-block;
+}
+nav {
+    background-color: #DDD;
+    margin: 0px 0 0px 0;
+}
+
+ul {    
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header {
+    margin: 0px;
+    border: 1px solid orange;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #EEE;
+}
+
+footer {
+    margin: 0px;
+    border: 1px solid orange;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #DEF;
+}
+
+aside {
+    border: 5px solid blue;
+    padding: 5px 5px 5px 5px;
+    margin: 0;
+    float: left;
+    width: 30%;
+}
+
+section {
+    width: 80%;
+    margin: 40px auto;
+    padding: 10px;
+    color: blue;
+    background-color: #FDF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.myForms {
+    margin-bottom: 20px;    
+}
+
+.btn-primary {
+    margin: 5px 5px;
+padding: 10px ;    
+     margin: 100px;
+display: block;
+}
+
+a.test {
+    font-weight: bold;
+}
+
+
+.solution {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+    color: blue;
+    background-color: #FDF;
+    border-radius: 10px;
+}
+
+.odd {
+    color: blue;
+    font-style: italic;
+    background-color: #FDF;
+
+}
+
+.even {
+    color: red;
+    font-size: 1.5em;
+    background-color: #DFD;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#container {
+    max-width: 90%;
+    margin: auto; 
+
+}
+ */
