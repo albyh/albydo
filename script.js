@@ -68,12 +68,21 @@ var albyDo = {}, options = {}, settings = {};
         }).appendTo( parent );
 
 
-        //this works... wrapper = $('<div>New Text</div>').appendTo( parent );
+        //this also works... wrapper = $('<div>New Text</div>').appendTo( parent );
+        //taskToAdd.title = '<'+defaults.taskTagType+'>'+taskToAdd+'</'+defaults.taskTagType+'>'; 
+        //$(.defaults.inProgressDiv).append( $(taskToAdd.title) );
 
-        $("<div />", {
-            "class" : defaults.taskTitle,
+        $("<div />", {        
+            "class" : 'task-title',
             "text"  : taskToAdd.title
         }).appendTo(wrapper);
+
+        //$("<col-md-11 class='task-title'>"+taskToAdd.title+"</col-md-11>").appendTo(wrapper);  
+
+        /*Considered using a checkbox to send to completed
+        $("<label class='temp'><input type='checkbox'></label>", {
+            "class" : 'col-md-2',
+        }).appendTo(wrapper);  */
 
         $("<div />", {
             "class" : defaults.taskDate,
@@ -84,9 +93,6 @@ var albyDo = {}, options = {}, settings = {};
             "class" : defaults.taskDesc,
             "text"  : taskToAdd.description
         }).appendTo(wrapper);        
-
-        //taskToAdd.title = '<'+defaults.taskTagType+'>'+taskToAdd+'</'+defaults.taskTagType+'>'; 
-        //$(.defaults.inProgressDiv).append( $(taskToAdd.title) );
 
     };
 

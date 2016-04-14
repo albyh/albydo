@@ -70,7 +70,7 @@ footer{
     color: black;
     font-style: sans-serif;
 }
-
+.col-md-10{ background-color: gray; }
 
 /* *********from nested accordion codepen********************************************************************** */
 /* 
