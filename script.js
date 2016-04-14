@@ -12,15 +12,51 @@ var albyDo = {}, options = {}, settings = {};
         taskDesc: "task-description",
         taskDate: "task-dueDate",
         taskIdPrefix: "task-",
-        formId: "form-addTask",
         dataAttribute: "data",
         deleteDiv: "delete-div",
+        entryFormId: "#form-addTask",
         inProgressDiv: "#tasks-inProgress",
         completedDiv: "#tasks-completed"
     };
 
+/**************************************************************/
+  //add a click handler to the link:
+  //For click and most other events, you can prevent the default behavior by calling 
+  //event.preventDefault() in the event handler:
+  //$( taskClass ).click( function( event ) {
+
+  //this works for the default/test tasks
+  //$( '.'+defaults.taskClass ).hover( function( event ) {  
+
+//$( '.'+defaults.taskTitle ).on('hover', function( event ) {      
+$( '.task-title' ).on( 'hover', function( event ) {          
+    $( this ).addClass('hover-task')},
+    function( event ) { 
+    $( this ).removeClass('hover-task') ;
+    event.preventDefault();
+  });
+
+    
+//on click move to completed div or inProgress depending on where it is located
+//$( '#'+defaults.taskTitle ).on('click', function( event ) {  //this won't work on newly created elements
+//so add the event to 'body' and include the target selector after the 'click' event
+$( 'body' ).on('click', '.task-title, .task-description, .task-dueDate', function( event ) {      
+    if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {
+        $( this ).parent().appendTo( defaults.completedDiv );
+    } else {;
+        $( this ).parent().appendTo( defaults.inProgressDiv );
+    }
+  });
+
+
+
+
+  
+/**************************************************************/
+
+
     albyDo.add = function() {
-        var inputs = $("#" + defaults.formId + " :input");  //save form inputs 
+        var inputs = $( defaults.entryFormId + " :input");  //save form inputs 
         var errorMsg = "Enter a Title for this task.";
         //var id, title, description, date; 
         var taskToAdd = {id: '' , title: '', description: '', date: ''};
@@ -94,6 +130,15 @@ var albyDo = {}, options = {}, settings = {};
             "text"  : taskToAdd.description
         }).appendTo(wrapper);        
 
+//the new elements weren't being selected by event handlers so I add them 'manually' after creating them?
+/*
+$( '.task-title' ).on( 'hover', function( event ) {          
+    $( this ).addClass('hover-task')},
+    function( event ) { 
+    $( this ).removeClass('hover-task') ;
+    event.preventDefault();
+  });
+*/
     };
 
     var generateAlert = function( msg ){
@@ -102,7 +147,7 @@ var albyDo = {}, options = {}, settings = {};
 
 
     albyDo.clear = function(){
-        var inputs = $("#" + defaults.formId + " :input");  //save form inputs 
+        var inputs = $( defaults.entryFormId + " :input");  //save form inputs 
         // Reset Form
         inputs[0].value = "";
         inputs[1].value = "";

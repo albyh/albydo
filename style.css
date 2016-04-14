@@ -72,6 +72,10 @@ footer{
 }
 .col-md-10{ background-color: gray; }
 
+.hover-task{
+    background-color: #FFA;
+}
+
 /* *********from nested accordion codepen********************************************************************** */
 /* 
 a {
