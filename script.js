@@ -39,10 +39,10 @@ var albyDo = {}, options = {}, settings = {};
                  });
 */                 
                  
-$( 'body' ).on( 'mouseenter', '.task-title' , function()  {
+$( 'body' ).on( 'mouseenter', '.task-title, .task-description, .task-dueDate' , function()  {
 	$( this ).parent().addClass('hover-task')});
 
-$( 'body' ).on( 'mouseleave', '.task-title' , function()  {          
+$( 'body' ).on( 'mouseleave', '.task-title, .task-description, .task-dueDate' , function()  {          
 	$( this ).parent().removeClass('hover-task')});
 
 
@@ -50,16 +50,17 @@ $( 'body' ).on( 'mouseleave', '.task-title' , function()  {
 //on click move to completed div or inProgress depending on where it is located
 //$( '#'+defaults.taskTitle ).on('click', function( event ) {  //this won't work on newly created elements
 //so add the event to 'body' and include the target selector(s) after the 'click' event
-$( 'body' ).on('click', '.task-title, .task-description, .task-dueDate', function( event ) {      
-    if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {
-        $( this ).parent().appendTo( defaults.completedDiv );
-    } else {;
-        $( this ).parent().appendTo( defaults.inProgressDiv );
+$( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {      
+
+	//fadeout not working
+	//$( this ).parent().delay(2000).fadeOut( 1000 );
+
+    if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {	
+    	$( this ).parent().appendTo( defaults.completedDiv ).hide().slideDown('fast');
+    } else {;    	
+        $( this ).parent().appendTo( defaults.inProgressDiv ).hide().slideDown('fast');
     }
   });
-
-
-
 
   
 /**************************************************************/
