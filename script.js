@@ -28,18 +28,28 @@ var albyDo = {}, options = {}, settings = {};
   //this works for the default/test tasks
   //$( '.'+defaults.taskClass ).hover( function( event ) {  
 
-//$( '.'+defaults.taskTitle ).on('hover', function( event ) {      
-$( '.task-title' ).on( 'hover', function( event ) {          
-    $( this ).addClass('hover-task')},
-    function( event ) { 
-    $( this ).removeClass('hover-task') ;
-    event.preventDefault();
-  });
 
-    
+//this works but not for dynamically created content
+/*                 $( '.task-title' )
+                 .mouseenter( function()  {          
+                 	$( this ).parent().addClass('hover-task');
+                 })
+                 .mouseleave( function()  {          
+                 	$( this ).parent().removeClass('hover-task');
+                 });
+*/                 
+                 
+$( 'body' ).on( 'mouseenter', '.task-title' , function()  {
+	$( this ).parent().addClass('hover-task')});
+
+$( 'body' ).on( 'mouseleave', '.task-title' , function()  {          
+	$( this ).parent().removeClass('hover-task')});
+
+
+
 //on click move to completed div or inProgress depending on where it is located
 //$( '#'+defaults.taskTitle ).on('click', function( event ) {  //this won't work on newly created elements
-//so add the event to 'body' and include the target selector after the 'click' event
+//so add the event to 'body' and include the target selector(s) after the 'click' event
 $( 'body' ).on('click', '.task-title, .task-description, .task-dueDate', function( event ) {      
     if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {
         $( this ).parent().appendTo( defaults.completedDiv );
