@@ -24,7 +24,7 @@ header{
 footer{
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    margin: 0px;
+    margin: 10px 0 0 0 ;
     border-top: 1px solid orange;
     padding: 10px;
     background-color: #4FF;
@@ -48,6 +48,8 @@ footer{
     background-color: #234;
     /* border-radius: 10px; */
 }
+
+
 
 .task{
     margin: 2px ;
@@ -75,6 +77,16 @@ footer{
 .hover-task{
     background-color: #FFA;
 }
+
+#tasks-inProgress {
+  min-height: 50px;
+}
+
+#tasks-completed {
+  min-height: 50px;
+}
+
+
 
 /* *********from nested accordion codepen********************************************************************** */
 /* 

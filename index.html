@@ -7,7 +7,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
 	<link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'>
-	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 	<script src="script.js" defer></script>
 
 
@@ -22,13 +24,13 @@
 			<div id='inProgressHeader'>
 				<h3 class='taskHeader'>Tasks in Progress</h3>
 			</div>
-			<div id="tasks-inProgress">
-				<div class='task'>
+			<div id="tasks-inProgress" class="drop-container">
+				<div class='task draggable' id="task-1460848384472">
 					<div class='task-title'>Buy Milk</div>
 					<div class='task-dueDate'>Due Date:</div>
 					<div class='task-description'>Hipster ispum dolor cronut</div>						
 				</div>
-				<div class='task'>
+				<div class='task draggable' id="task-1460848384353">
 					<div class='task-title'>Buy Toner</div>
 					<div class='task-dueDate'>Due Date:</div>
 					<div class='task-description'>Blorem ispum dolor cronut</div>					
@@ -39,8 +41,8 @@
 			<div id='CompletedHeader' >
 				<h3 class='taskHeader'>Completed Tasks</h3>
 			</div>
-			<div id="tasks-completed">
-				<div class='task'>
+			<div id="tasks-completed" class="drop-container">
+				<div class='task draggable' id="task-1460848384484">
 					<div class='task-title'>Find Keys</div>
 					<div class='task-dueDate'>Due Date:</div>
 					<div class='task-description'>Lorem ispum dolor cronut</div>
@@ -60,7 +62,7 @@
 						<!-- <label for="taskInfo">Task Description</label> -->
 						<textarea id="taskInfo" class="form-control" placeholder="Descrtipion"></textarea>
 						<!-- <label for="taskDue">Due Date</label> -->
-						<input id="taskDue" class="col-md-4 form-control hasDatepicker" type="date" placeholder="Due Date (dd/mm/yyyy)" />
+						<input id="taskDue" class="col-md-4 form-control" type="text" placeholder="Due Date (mm/dd/yyyy)" />
 					</div>
 
 				</div>

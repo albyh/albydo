@@ -5,155 +5,166 @@ var albyDo = {}, options = {}, settings = {};
 
 (function( albyDo, options, settings, $){
 
-    defaults = {
-        taskTagType: "p",
-        taskClass: "task",
-        taskTitle: "task-title",
-        taskDesc: "task-description",
-        taskDate: "task-dueDate",
-        taskIdPrefix: "task-",
-        dataAttribute: "data",
-        deleteDiv: "delete-div",
-        entryFormId: "#form-addTask",
-        inProgressDiv: "#tasks-inProgress",
-        completedDiv: "#tasks-completed"
-    };
+	defaults = {
+		taskTagType: "p",
+		taskClass: "task",
+		taskTitle: "task-title",
+		taskDesc: "task-description",
+		taskDate: "task-dueDate",
+		taskIdPrefix: "task-",
+		dataAttribute: "data",
+		deleteDiv: "delete-div",
+		entryFormId: "#form-addTask",
+		inProgressDiv: "#tasks-inProgress",
+		completedDiv: "#tasks-completed",
+		dragOptions: { 	stack: ".draggable",
+					   	revert: 'invalid',
+						revertDuration: 100
+		 			 }
+	};
 
-/**************************************************************/
-  //add a click handler to the link:
-  //For click and most other events, you can prevent the default behavior by calling 
-  //event.preventDefault() in the event handler:
-  //$( taskClass ).click( function( event ) {
-
-  //this works for the default/test tasks
-  //$( '.'+defaults.taskClass ).hover( function( event ) {  
+// default/init actions
 
 
-//this works but not for dynamically created content
-/*                 $( '.task-title' )
-                 .mouseenter( function()  {          
-                 	$( this ).parent().addClass('hover-task');
-                 })
-                 .mouseleave( function()  {          
-                 	$( this ).parent().removeClass('hover-task');
-                 });
-*/                 
-                 
+//Add datepicker to duedate
+$( "#taskDue" ).datepicker();
+$( "#taskDue" ).datepicker("option", "dateFormat", "mm/dd/yy");
+
+
+//make demo data draggable
+$('.task').draggable( defaults.dragOptions );
+
+//start: function(){ $('#tasks-completed').css( {'min-height': '300px'} ); },
+
+$('.drop-container').droppable({
+	drop: function( event, ui ){
+		var taskObject = {id: '' , title: '', description: '', date: ''};
+		var dropContainer ;
+
+		taskObject.id = ui.draggable.prop('id');
+		taskObject.title = ui.draggable.children('.task-title').text(); 
+		taskObject.description = ui.draggable.children('.task-description').text(); 
+		taskObject.date = ui.draggable.children('.task-dueDate').text();
+
+		dropContainer = '#'+$(event.target).prop('id');
+
+		if (ui.draggable.parent().attr("id") != $(event.target).prop('id')) {
+
+			$('#'+taskObject.id).remove();
+
+			addElement( taskObject, dropContainer );
+		} else { 
+			$('#'+taskObject.id).draggable( "option", "revert", true )
+			$('#'+taskObject.id).draggable( "option", "revertDuration", 100 );
+     } //if
+  }  // Drop
+});
+
+//task highlighting                 
 $( 'body' ).on( 'mouseenter', '.task-title, .task-description, .task-dueDate' , function()  {
 	$( this ).parent().addClass('hover-task')});
 
 $( 'body' ).on( 'mouseleave', '.task-title, .task-description, .task-dueDate' , function()  {          
 	$( this ).parent().removeClass('hover-task')});
 
+//highlight if mouse on task wrapper
+$( 'body' ).on( 'mouseenter', '.task' , function()  {
+	$( this ).addClass('hover-task')});
 
+$( 'body' ).on( 'mouseleave', '.task' , function()  {          
+	$( this ).removeClass('hover-task')});
 
-//on click move to completed div or inProgress depending on where it is located
-//$( '#'+defaults.taskTitle ).on('click', function( event ) {  //this won't work on newly created elements
-//so add the event to 'body' and include the target selector(s) after the 'click' event
+/*
+$( '#tasks-completed' ).on( 'mouseenter', function() {
+  $( '#tasks-completed' ).css( {'min-height': '50px'} )
+})
+*/
+
+//swap container on doubleclick
 $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {      
 
-	//fadeout not working
-	//$( this ).parent().delay(2000).fadeOut( 1000 );
+	if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {	
+		$( this ).parent().appendTo( defaults.completedDiv ).hide().slideDown('fast');
+	} else {;    	
+		$( this ).parent().appendTo( defaults.inProgressDiv ).hide().slideDown('fast');
+	}
+});
 
-    if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {	
-    	$( this ).parent().appendTo( defaults.completedDiv ).hide().slideDown('fast');
-    } else {;    	
-        $( this ).parent().appendTo( defaults.inProgressDiv ).hide().slideDown('fast');
-    }
-  });
 
-  
+
 /**************************************************************/
 
 
-    albyDo.add = function() {
+albyDo.add = function() {
         var inputs = $( defaults.entryFormId + " :input");  //save form inputs 
         var errorMsg = "Enter a Title for this task.";
         //var id, title, description, date; 
         var taskToAdd = {id: '' , title: '', description: '', date: ''};
 
-        //var taskToAdd = $('#taskTitle').val();          //this value needs to be 'cleaned' / escaped
-        //$('#taskTitle').val('');  
-        
         taskToAdd.id = new Date().getTime();
         taskToAdd.title = inputs[0].value; 
         taskToAdd.description = inputs[1].value; 
         taskToAdd.date = "Due Date: "+ inputs[2].value;
 
         if (!taskToAdd.title){
-            generateAlert( errorMsg );
-            return;
+        	generateAlert( errorMsg );
+        	return;
         }
 
-/*
-        taskToAdd.title = '<'+defaults.taskTagType+'>'+taskToAdd+'</'+defaults.taskTagType+'>'; 
-        $('header').append('<button id="changebtn" class="btn btn-primary">Change</button>');
-        $('.in-progress').append( $(taskToAdd.title) );
-*/        
-        addElement( taskToAdd )
+        addElement( taskToAdd );
 
         // Reset Form
         inputs[0].value = "";
         inputs[1].value = "";
         inputs[2].value = "";
 
-    }; //add()
+    }; 
 
     //Create the ToDo Element
-    var addElement = function( taskToAdd ){
+    var addElement = function( taskToAdd , parent ){
 
         //specify the parent div
-        var parent = defaults.inProgressDiv, wrapper;
+        var parent, wrapper;
 
+        if (!parent){
+        	parent = defaults.inProgressDiv;
+        };
+
+        /* why would this ever be false?
         if (!parent) {
             return;
         }
+        */
 
         wrapper = $("<div />", {
-            "class" : defaults.taskClass,
-            "id"    : defaults.taskIdPrefix + taskToAdd.id            
+        	"class" : defaults.taskClass,
+        	"id"    : defaults.taskIdPrefix + taskToAdd.id            
         }).appendTo( parent );
 
-
-        //this also works... wrapper = $('<div>New Text</div>').appendTo( parent );
-        //taskToAdd.title = '<'+defaults.taskTagType+'>'+taskToAdd+'</'+defaults.taskTagType+'>'; 
-        //$(.defaults.inProgressDiv).append( $(taskToAdd.title) );
-
         $("<div />", {        
-            "class" : 'task-title',
-            "text"  : taskToAdd.title
-        }).appendTo(wrapper);
-
-        //$("<col-md-11 class='task-title'>"+taskToAdd.title+"</col-md-11>").appendTo(wrapper);  
-
-        /*Considered using a checkbox to send to completed
-        $("<label class='temp'><input type='checkbox'></label>", {
-            "class" : 'col-md-2',
-        }).appendTo(wrapper);  */
-
-        $("<div />", {
-            "class" : defaults.taskDate,
-            "text"  : taskToAdd.date
+        	"class" : 'task-title',
+        	"text"  : taskToAdd.title
         }).appendTo(wrapper);
 
         $("<div />", {
-            "class" : defaults.taskDesc,
-            "text"  : taskToAdd.description
+        	"class" : defaults.taskDate,
+        	"text"  : taskToAdd.date
+        }).appendTo(wrapper);
+
+        $("<div />", {
+        	"class" : defaults.taskDesc,
+        	"text"  : taskToAdd.description
         }).appendTo(wrapper);        
 
-//the new elements weren't being selected by event handlers so I add them 'manually' after creating them?
-/*
-$( '.task-title' ).on( 'hover', function( event ) {          
-    $( this ).addClass('hover-task')},
-    function( event ) { 
-    $( this ).removeClass('hover-task') ;
-    event.preventDefault();
-  });
-*/
+        wrapper.draggable( defaults.dragOptions );
+
     };
 
+
+
+
     var generateAlert = function( msg ){
-        alert( msg );
+    	alert( msg );
     }
 
 
