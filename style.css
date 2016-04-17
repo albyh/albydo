@@ -49,8 +49,6 @@ footer{
     /* border-radius: 10px; */
 }
 
-
-
 .task{
     margin: 2px ;
     padding: 3px 3px 3px 20px;
@@ -78,6 +76,9 @@ footer{
     background-color: #FFA;
 }
 
+.edit-mode{
+    background-color: orange;
+}
 #tasks-inProgress {
   min-height: 50px;
 }

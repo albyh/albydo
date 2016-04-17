@@ -5,6 +5,15 @@ var albyDo = {}, options = {}, settings = {};
 
 (function( albyDo, options, settings, $){
 
+	settings = {
+		edit: false, 
+		parentId: "", 
+		editId: "", 
+		editTitle: "", 
+		editDesc: "", 
+		editDate: ""
+	}
+
 	defaults = {
 		taskTagType: "p",
 		taskClass: "task",
@@ -24,7 +33,7 @@ var albyDo = {}, options = {}, settings = {};
 	};
 
 // default/init actions
-
+$('#btnCancel').hide();
 
 //Add datepicker to duedate
 $( "#taskDue" ).datepicker();
@@ -34,8 +43,11 @@ $( "#taskDue" ).datepicker("option", "dateFormat", "mm/dd/yy");
 //make demo data draggable
 $('.task').draggable( defaults.dragOptions );
 
-//start: function(){ $('#tasks-completed').css( {'min-height': '300px'} ); },
 
+//Sortable container needs to be built (turn off revert on originating container)
+//$('.drop-container').sortable();
+
+//Drop functionality
 $('.drop-container').droppable({
 	drop: function( event, ui ){
 		var taskObject = {id: '' , title: '', description: '', date: ''};
@@ -46,18 +58,18 @@ $('.drop-container').droppable({
 		taskObject.description = ui.draggable.children('.task-description').text(); 
 		taskObject.date = ui.draggable.children('.task-dueDate').text();
 
-		dropContainer = '#'+$(event.target).prop('id');
+		dropContainerId = '#'+$(event.target).prop('id');
 
 		if (ui.draggable.parent().attr("id") != $(event.target).prop('id')) {
 
 			$('#'+taskObject.id).remove();
 
-			addElement( taskObject, dropContainer );
+			addElement( taskObject, dropContainerId );
 		} else { 
 			$('#'+taskObject.id).draggable( "option", "revert", true )
 			$('#'+taskObject.id).draggable( "option", "revertDuration", 100 );
-     } //if
-  }  // Drop
+     } //end If
+  }  //end Drop:
 });
 
 //task highlighting                 
@@ -74,67 +86,143 @@ $( 'body' ).on( 'mouseenter', '.task' , function()  {
 $( 'body' ).on( 'mouseleave', '.task' , function()  {          
 	$( this ).removeClass('hover-task')});
 
-/*
-$( '#tasks-completed' ).on( 'mouseenter', function() {
-  $( '#tasks-completed' ).css( {'min-height': '50px'} )
-})
+
+/* this is OLD code to swap containers on doubleclick
+	$( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {      
+		if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {	
+			$( this ).parent().appendTo( defaults.completedDiv ).hide().slideDown('fast');
+		} else {;    	
+			$( this ).parent().appendTo( defaults.inProgressDiv ).hide().slideDown('fast');
+		}
+	});
 */
 
-//swap container on doubleclick
-$( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {      
+//***********************************************************************************************
 
-	if ( '#'+$(this).parent().parent().attr('id') === defaults.inProgressDiv ) {	
-		$( this ).parent().appendTo( defaults.completedDiv ).hide().slideDown('fast');
-	} else {;    	
-		$( this ).parent().appendTo( defaults.inProgressDiv ).hide().slideDown('fast');
-	}
+	//Edit selected task on doubleclick
+$( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {   
+
+	//change the text to Edit instead of add
+	$('#labelHead').text( "Edit Task" ); 
+
+	//Change Add button to Save
+	$('#btnAddSave').val( "Save Task" ); 
+
+	//show Cancel button
+	$('#btnCancel').show();
+
+	//change the button onclick to Delete instead of Clear
+	$('#btnClearDelete').val( "DELETE Task" ); 
+	$('#btnClearDelete').addClass( "btn-danger" ); 
+	//$('#btnClearDelete').onClick( ); 
+
+	$('footer').addClass('edit-mode');
+	
+	//add oTask as a global that is populated with the current task data?
+	var oTask = {
+		parentId: $(this).parent().parent().attr('id'),
+		id: $(this).parent().attr('id'),
+		title: $(this).parent().children('.task-title').text(), 
+		description: $(this).parent().children('.task-description').text(),
+		dueDate:  $(this).parent().children('.task-dueDate').text()
+	};
+
+	$(this).parent().remove() // remove the task wrapper
+
+	settings.edit = true; //turn editing flag on
+
+	albyDo.edit( oTask );       
 });
+  
+/*********************************************************************************************/
 
+  albyDo.edit = function ( oTask ) {
+    //delete current task
+	$(oTask.parentId).remove();
+
+    // Populate form data from task
+    $('#taskTitle').val( oTask.title );
+    $('#taskInfo').val( oTask.description );
+    $('#taskDue').val( oTask.dueDate );
+    
+    //save to 'global'
+	settings.parentId = oTask.parentId;
+	settings.editId = oTask.id;
+	settings.editTitle = oTask.title;	
+	settings.editDesc = oTask.description;
+	settings.editDate = oTask.dueDate;
+
+  }
 
 
 /**************************************************************/
 
-
-albyDo.add = function() {
+//Add a task (new or edited)
+albyDo.add = function( cancel ) {
         var inputs = $( defaults.entryFormId + " :input");  //save form inputs 
         var errorMsg = "Enter a Title for this task.";
-        //var id, title, description, date; 
         var taskToAdd = {id: '' , title: '', description: '', date: ''};
+        var parent = $(defaults.inProgressDiv);
 
-        taskToAdd.id = new Date().getTime();
-        taskToAdd.title = inputs[0].value; 
-        taskToAdd.description = inputs[1].value; 
-        taskToAdd.date = "Due Date: "+ inputs[2].value;
+        if (cancel) {
+        	// replace with default values
+        	taskToAdd.id = settings.editId; 
+        	taskToAdd.title = settings.editTitle;
+        	taskToAdd.description = settings.editDesc;
+        	//taskToAdd.date = "Due Date: "+ inputs[2].value;
+        	taskToAdd.date = settings.editDate
+        } else {
+        	//use user input
+        	taskToAdd.id = new Date().getTime();
+        	taskToAdd.title = inputs[0].value; 
+        	taskToAdd.description = inputs[1].value; 
+        	//taskToAdd.date = "Due Date: "+ inputs[2].value;
+        	taskToAdd.date = inputs[2].value;
+    	}
 
         if (!taskToAdd.title){
         	generateAlert( errorMsg );
         	return;
         }
 
-        addElement( taskToAdd );
+        parent = (settings.edit) ? $('#'+settings.parentId) : parent;	
+
+        addElement( taskToAdd, parent );
 
         // Reset Form
         inputs[0].value = "";
         inputs[1].value = "";
         inputs[2].value = "";
 
+        // Reset to add if in editing mode
+        if ( settings.edit ){
+        	resetForm()
+		}	
+
     }; 
 
-    //Create the ToDo Element
-    var addElement = function( taskToAdd , parent ){
+    // Reset from edit mode
+    var resetForm = function(){
+		$('#labelHead').text( "Enter New Task" ); 
+		$('#btnAddSave').val( "Add Task" ); 
+		$('#btnCancel').hide();
+		$('#btnClearDelete').val( "Clear Task" ); 
+		$('#btnClearDelete').removeClass( "btn-danger" ); 
+		$('footer').removeClass('edit-mode');
+		settings.edit = false; 
+    }
+
+    //Create the ToDo Element in the passed parent (in-progress/completed) container
+    var addElement = function( taskToAdd , parentId ){
 
         //specify the parent div
         var parent, wrapper;
 
-        if (!parent){
-        	parent = defaults.inProgressDiv;
+        if (!parentId){
+        	parent = $(defaults.inProgressDiv);
+        } else {
+        	parent = $(parentId)
         };
-
-        /* why would this ever be false?
-        if (!parent) {
-            return;
-        }
-        */
 
         wrapper = $("<div />", {
         	"class" : defaults.taskClass,
@@ -162,18 +250,23 @@ albyDo.add = function() {
 
 
 
-
+    //Alert messages
     var generateAlert = function( msg ){
     	alert( msg );
     }
 
-
+    //Clear label inputs
     albyDo.clear = function(){
         var inputs = $( defaults.entryFormId + " :input");  //save form inputs 
         // Reset Form
         inputs[0].value = "";
         inputs[1].value = "";
         inputs[2].value = "";
+
+        if ( settings.edit ){ 
+        	resetForm();
+        }
+
     }; 
 
 })( albyDo, options, settings, jQuery );
