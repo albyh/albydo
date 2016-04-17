@@ -33,6 +33,11 @@ var albyDo = {}, options = {}, settings = {};
 		 			 }
 	};
 
+//Delete the help box
+$('#help-button').on('click', function(){
+	$('.helpBox').hide();
+});
+
 // default/init actions
 $('#btnCancel').hide();
 
@@ -103,36 +108,38 @@ $( 'body' ).on( 'mouseleave', '.task' , function()  {
 	//Edit selected task on doubleclick
 $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', function( event ) {   
 
-	//change the text to Edit instead of add
-	$('#labelHead').text( "Edit Task" ); 
+	if(!settings.edit){
+		//change the text to Edit instead of add
+		$('#labelHead').text( "Edit Task" ); 
 
-	//Change Add button to Save
-	$('#btnAddSave').val( "Save Task" ); 
+		//Change Add button to Save
+		$('#btnAddSave').val( "Save Task" ); 
 
-	//show Cancel button
-	$('#btnCancel').show();
+		//show Cancel button
+		$('#btnCancel').show();
 
-	//change the button onclick to Delete instead of Clear
-	$('#btnClearDelete').val( "DELETE Task" ); 
-	$('#btnClearDelete').addClass( "btn-danger" ); 
-	//$('#btnClearDelete').onClick( ); 
+		//change the button onclick to Delete instead of Clear
+		$('#btnClearDelete').val( "DELETE Task" ); 
+		$('#btnClearDelete').addClass( "btn-danger" ); 
+		//$('#btnClearDelete').onClick( ); 
 
-	$('footer').addClass('edit-mode');
-	
-	//add oTask as a global that is populated with the current task data?
-	var oTask = {
-		parentId: $(this).parent().parent().attr('id'),
-		id: $(this).parent().attr('id'),
-		title: $(this).parent().children('.task-title').text(), 
-		description: $(this).parent().children('.task-description').text(),
-		dueDate:  $(this).parent().children('.task-dueDate').text()
-	};
+		$('footer').addClass('edit-mode');
+		
+		//add oTask as a global that is populated with the current task data?
+		var oTask = {
+			parentId: $(this).parent().parent().attr('id'),
+			id: $(this).parent().attr('id'),
+			title: $(this).parent().children('.task-title').text(), 
+			description: $(this).parent().children('.task-description').text(),
+			dueDate:  $(this).parent().children('.task-dueDate').text()
+		};
 
-	$(this).parent().remove() // remove the task wrapper
+		$(this).parent().remove() // remove the task wrapper
 
-	settings.edit = true; //turn editing flag on
+		settings.edit = true; //turn editing flag on
 
-	albyDo.edit( oTask );       
+		albyDo.edit( oTask );       
+	}
 });
   
 /*********************************************************************************************/
@@ -144,14 +151,17 @@ $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', func
     // Populate form data from task
     $('#taskTitle').val( oTask.title );
     $('#taskInfo').val( oTask.description );
-    $('#taskDue').val( oTask.dueDate );
+    $('#taskDue').val( oTask.dueDate.replace("Due Date: ", "") );
+    
     
     //save to 'global'
 	settings.parentId = oTask.parentId;
 	settings.editId = oTask.id;
 	settings.editTitle = oTask.title;	
 	settings.editDesc = oTask.description;
-	settings.editDate = oTask.dueDate;
+	//settings.editDate = oTask.dueDate;
+	settings.editDate = oTask.dueDate.replace("Due Date: ", "");
+	
 
   }
 
@@ -247,9 +257,10 @@ albyDo.add = function( cancel ) {
 
         wrapper.draggable( defaults.dragOptions );
 
+        //add some info: overdue task, etc
+        $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).prepend('<span>Due Date: </span>');
+        
     };
-
-
 
     //Alert messages
     var generateAlert = function( msg ){

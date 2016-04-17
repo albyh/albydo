@@ -16,6 +16,16 @@
 
 </head>
 <body>
+	<div class="helpbox">
+		<h5 class="helptext text-center">Thanks for taking a look at my To-Do project!</h5>
+		<hr class='gradiant'>
+		<p class="helptext">There are some preexisting tasks which you can edit, move or delete.</p>
+		<p class="helptext">Tasks can be dragged to "Completed" or to "In Progress"</p>
+		<p class="helptext">Double click on a task to edit or delete it."</p>
+		<button id='help-button' type="button" class="btn btn-info center-block">Hide This</button>
+
+	</div>
+
 	<div class="container">
 		<header>
 			<h1 id='appName' class='text-center'>Alby-do<span id='pencil-icon' class="glyphicon glyphicon-pencil"></span></h1>
@@ -27,12 +37,12 @@
 			<div id="tasks-inProgress" class="drop-container">
 				<div class='task draggable' id="task-1460848384472">
 					<div class='task-title'>Buy Milk</div>
-					<div class='task-dueDate'>04/15/2016</div>
+					<div class='task-dueDate'><span>Due Date: </span>04/15/2016</div>
 					<div class='task-description'>Hipster ispum dolor cronut</div>						
 				</div>
 				<div class='task draggable' id="task-1460848384353">
 					<div class='task-title'>Buy Toner</div>
-					<div class='task-dueDate'>04/22/2016</div>
+					<div class='task-dueDate'><span>Due Date: </span>04/22/2016</div>
 					<div class='task-description'>Blorem ispum dolor cronut</div>					
 				</div>
 
@@ -44,7 +54,7 @@
 			<div id="tasks-completed" class="drop-container">
 				<div class='task draggable' id="task-1460848384484">
 					<div class='task-title'>Find Keys</div>
-					<div class='task-dueDate'>04/20/2016</div>
+					<div class='task-dueDate'><span>Due Date: </span>04/20/2016</div>
 					<div class='task-description'>Lorem ispum dolor cronut</div>
 				</div>
 
@@ -78,5 +88,6 @@
 
 		</footer>
 	</div>
+	</p>
 </body>
 </html>
