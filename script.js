@@ -26,7 +26,8 @@ var albyDo = {}, options = {}, settings = {};
 		entryFormId: "#form-addTask",
 		inProgressDiv: "#tasks-inProgress",
 		completedDiv: "#tasks-completed",
-		dragOptions: { 	stack: ".draggable",
+		dragOptions: { 	stack: '.draggable',
+						zIndex: 100,
 					   	revert: 'invalid',
 						revertDuration: 100
 		 			 }
