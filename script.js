@@ -150,8 +150,12 @@ $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', func
 
     // Populate form data from task
     $('#taskTitle').val( oTask.title );
-    $('#taskInfo').val( oTask.description );
-    $('#taskDue').val( oTask.dueDate.replace("Due Date: ", "") );
+    $('#taskInfo').val( oTask.description );    
+    var strip1 = oTask.dueDate.replace("Due Date: ", "");
+    strip1 =  strip1.replace(" |  O V E R D U E !", "") ;
+    $('#taskDue').val( strip1 );
+    //$('#taskDue').val( oTask.dueDate.replace("Due Date:", "") );
+    //$('#taskDue').val( $('#taskDue')val(.replace("|  O V E R D U E !", "") );
     
     
     //save to 'global'
@@ -160,7 +164,11 @@ $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', func
 	settings.editTitle = oTask.title;	
 	settings.editDesc = oTask.description;
 	//settings.editDate = oTask.dueDate;
-	settings.editDate = oTask.dueDate.replace("Due Date: ", "");
+	var strip2 = oTask.dueDate.replace("Due Date: ", "");
+	strip2 = strip2.replace(" |  O V E R D U E !", "");
+	settings.editDate = strip2; 
+	//settings.editDate = oTask.dueDate.replace("Due Date: ", "");
+	//settings.editDate = oTask.dueDate.replace(" |  O V E R D U E !", "");
 	
 
   }
@@ -258,8 +266,22 @@ albyDo.add = function( cancel ) {
         wrapper.draggable( defaults.dragOptions );
 
         //add some info: overdue task, etc
-        $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).prepend('<span>Due Date: </span>');
-        
+        if ( $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text() ){
+        	$('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).prepend('<span>Due Date: </span>');
+        }   
+        var convert = $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text().replace("Due Date: ","");
+        var parseDate = new Date(convert);
+        parseDate = Date.parse(parseDate);
+        var now = new Date();
+        now = Date.parse(now);
+        if (parseDate < now ) {
+        	$('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).append('<span id="overdue"> |  O V E R D U E !</span>');
+        }
+        /*     
+        if (Date( $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text() ) < Date) {
+        	$('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).append('<span id="overdue"> |  O V E R D U E !</span>');
+        }
+        */
     };
 
     //Alert messages
