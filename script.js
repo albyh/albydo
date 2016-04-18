@@ -64,6 +64,9 @@ $('.drop-container').droppable({
 		taskObject.description = ui.draggable.children('.task-description').text(); 
 		taskObject.date = ui.draggable.children('.task-dueDate').text();
 
+		taskObject.date = taskObject.date.replace("Due Date: ", "");
+		taskObject.date = taskObject.date.replace(" |  O V E R D U E !", "") ;
+
 		dropContainerId = '#'+$(event.target).prop('id');
 
 		if (ui.draggable.parent().attr("id") != $(event.target).prop('id')) {
@@ -133,6 +136,8 @@ $( 'body' ).on('dblclick', '.task-title, .task-description, .task-dueDate', func
 			description: $(this).parent().children('.task-description').text(),
 			dueDate:  $(this).parent().children('.task-dueDate').text()
 		};
+		//oTask.dueDate = oTask.dueDate.replace("Due Date: ", "");
+		//oTask.dueDate = oTask.dueDate.replace(" |  O V E R D U E !", "") ;
 
 		$(this).parent().remove() // remove the task wrapper
 
@@ -266,10 +271,12 @@ albyDo.add = function( cancel ) {
         wrapper.draggable( defaults.dragOptions );
 
         //add some info: overdue task, etc
+        //This needs to be cleaned up
         if ( $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text() ){
         	$('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).prepend('<span>Due Date: </span>');
         }   
         var convert = $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text().replace("Due Date: ","");
+        convert = convert.replace(" |  O V E R D U E !","");
         var parseDate = new Date(convert);
         parseDate = Date.parse(parseDate);
         var now = new Date();
