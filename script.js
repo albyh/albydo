@@ -284,7 +284,7 @@ albyDo.add = function( cancel ) {
         parseDate = Date.parse(parseDate);
         var now = new Date();
         now = Date.parse(now);
-        if (parseDate < now ) {
+        if (parseDate < now && '#'+parent.attr('id') == defaults.inProgressDiv ) {
         	$('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).append('<span id="overdue"> |  O V E R D U E !</span>');
         }
         /*     
