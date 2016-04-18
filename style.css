@@ -54,7 +54,7 @@ hr.gradiant {
 }
 
 
-.container{
+.container-fluid{
     max-width: 600px;
     border-radius: 10px;
     border: 1px solid orange;   
@@ -94,7 +94,6 @@ hr.gradiant {
     color: black;
     font-style: sans-serif;
 }
-.col-md-10{ background-color: gray; }
 
 .hover-task{
     background-color: #FFA;
@@ -104,6 +103,7 @@ hr.gradiant {
     background-color: orange;
 }
 .helpbox{
+    max-width: 600px;
     width: 80%;
     margin: 40px auto;
     padding: 10px;
@@ -113,27 +113,34 @@ hr.gradiant {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .helptext{
-
+    
 }
 
+.emphasis{
+    color: red;
+    font-size: 1.0em;
+    font-weight: bold;
+}
+
+
 #tasks-inProgress {
-  min-height: 50px;
+    min-height: 50px;
 }
 
 #tasks-completed {
-  min-height: 50px;
+    min-height: 50px;
 }
 
 #overdue{
-  color: red;
-  font-size: 1.0em;
-  font-weight: bold;
+    color: red;
+    font-size: 1.0em;
+    font-weight: bold;
 }
 
 #form-addTask {
-  color: purple;
-  font-weight: 750;
-  font-size: 1.66rem;
+    color: purple;
+    font-weight: 750;
+    font-size: 1.66rem;
 }
 
 /* *********from nested accordion codepen********************************************************************** */

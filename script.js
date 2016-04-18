@@ -11,7 +11,8 @@ var albyDo = {}, options = {}, settings = {};
 		editId: "", 
 		editTitle: "", 
 		editDesc: "", 
-		editDate: ""
+		editDate: "",
+		skinny: false
 	}
 
 	defaults = {
@@ -270,6 +271,8 @@ albyDo.add = function( cancel ) {
 
         wrapper.draggable( defaults.dragOptions );
 
+        albyDo.skinny(true);
+
         //add some info: overdue task, etc
         //This needs to be cleaned up
         if ( $('#'+defaults.taskIdPrefix + taskToAdd.id).children('.'+defaults.taskDate).text() ){
@@ -308,7 +311,25 @@ albyDo.add = function( cancel ) {
         	resetForm();
         }
 
-    }; 
+    };
+
+    albyDo.skinny = function( keep ){
+
+    	if (!keep) {
+    		settings.skinny = settings.skinny ? false : true //toggle
+    	}
+
+    	if ( settings.skinny ){
+    		$('#btnSkinny').val("Details");
+    		$('.task-description').hide()
+    		$('.task-dueDate').hide()
+    	} else {
+    		$('#btnSkinny').val("1-Line");
+    		$('.task-description').show()
+    		$('.task-dueDate').show()
+		}
+		
+    } 
 
 })( albyDo, options, settings, jQuery );
 

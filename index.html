@@ -20,16 +20,16 @@
 		<ul>
 		<h5 class="helptext text-center">Thanks for taking a look at my To-Do project!</h5>
 		<hr class='gradiant'>
-		<li class="helptext">There are some preexisting tasks which you can edit, move or delete.</li>
-		<li class="helptext">Tasks can be dragged to "Completed" or to "In Progress"</li>
-		<li class="helptext">Double click on a task to edit or delete it."</li>
-		<li class="helptext">Overdue tasks will show as Overdue!"</li>
+		<li class="helptext">There are some preexisting tasks which you can <span class='emphasis'>edit</span>, <span class='emphasis'>move</span> or <span class='emphasis'>delete</span>.</li>
+		<li class="helptext">Tasks can be <span class='emphasis'>dragged</span> to "Completed" or to "In Progress"</li>
+		<li class="helptext"><span class='emphasis'>Double click</span> on a task to <span class='emphasis'>edit</span> or <span class='emphasis'>delete</span> it."</li>
+		<li class="helptext">Overdue tasks will show as <span class='emphasis'>Overdue!</span>"</li>
 		</ul>
 		<button id='help-button' type="button" class="btn btn-info center-block">Hide This</button>
 
 	</div>
 
-	<div class="container">
+	<div class="container-fluid">
 		<header>
 			<h1 id='appName' class='text-center'>Alby-do<span id='pencil-icon' class="glyphicon glyphicon-pencil"></span></h1>
 		</header>
@@ -73,19 +73,24 @@
 						<!-- All text elements with class .form-control have a width of 100%. -->
 						<input id="taskTitle"  class="col-md-8 form-control" type="text" placeholder="Task Title" />
 						<!-- <label for="taskInfo">Task Description</label> -->
-						<textarea id="taskInfo" class="form-control" placeholder="Descrtipion"></textarea>
+						<textarea id="taskInfo" class="form-control" placeholder="Description"></textarea>
 						<!-- <label for="taskDue">Due Date</label> -->
 						<input id="taskDue" class="col-md-4 form-control" type="text" placeholder="Due Date (mm/dd/yyyy)" />
 					</div>
 
 				</div>
-
-				<input id='btnAddSave' type="button" class="btn btn-primary" value="Add Task" onclick="albyDo.add()" />
-				<input id='btnCancel' type="button" class="btn btn-primary" value="Cancel" onclick="albyDo.add( true )" />
-				<input id='btnClearDelete' type="button" class="btn btn-primary" value="Clear Task" onclick="albyDo.clear()" />
-				<!-- <button id="addButton" class="btn btn-primary center-block">Add New Task</button> -->
-
-				
+				<div class="row">
+				<div class="col-xs-10">
+					<input id='btnAddSave' type="button" class="btn btn-primary" value="Add Task" onclick="albyDo.add()" />
+					<input id='btnCancel' type="button" class="btn btn-primary" value="Cancel" onclick="albyDo.add( true )" />
+					<input id='btnClearDelete' type="button" class="btn btn-primary" value="Clear Task" onclick="albyDo.clear()" />
+					<!-- <button id="addButton" class="btn btn-primary center-block">Add New Task</button> -->
+				</div>
+				<div class="col-xs-2">
+					<input id='btnSkinny' type="button" class="btn" value="1-Line" onclick="albyDo.skinny()" />
+					<!-- <label class="checkbox-inline"><input id="skinny-mode" type="checkbox" value="">Skinny Mode</label> -->
+				</div>
+				</div>
 
 			</form>
 
